@@ -26,6 +26,9 @@
             <a class="level-item">
               <span class="icon is-small" @click="selectTrack">▶</span>
             </a>
+            <a class="level-item">
+              <span class="icon is-small" @click="goToTrack(track.id)">🌍</span>
+            </a>
           </div>
         </nav>
       </div>
@@ -45,6 +48,11 @@ export default {
       this.$emit('select', this.track.id)
 
       this.$bus.$emit('set-track', this.track)
+    },
+
+    goToTrack (id) {
+      // Navega de una ruta a otra
+      this.$router.push({ name: 'track', params: {id} })
     }
   }
 }

@@ -1,126 +1,25 @@
 <template>
   <div id="app">
-
-     <!-- Layout Header -->
+    <!-- Layout Header -->
     <PmHeader />
-
-    <PmNotification v-show="showNotification">
-      <p slot="body">
-        No se encontraron resultados
-      </p>
-    </PmNotification>
-    <section class="section">
-      <nav class="nav has-shadow">
-        <div class="container">
-          <input type="text" 
-            v-model="searchQuery" 
-            class="input" 
-            placeholder="Buscar canciones">
-          <br/>
-          <a href="" class="button is-info" @click.prevent="search">
-            Buscar
-          </a>
-          <a href="" class="button is-danger" @click.prevent="cleanTracks">
-            &times;
-          </a>
-          <p><small> {{ searchMessage }} </small></p>
-        </div>
-      </nav>
-      <br/>
-      <div class="container">
-        <div class="columns is-multiline">
-          <PmLoader v-show="isLoading" />
-          <PmTrack v-show="!isLoading" 
-            v-for="(track, index) in tracks" 
-            :key="index" :track="track" 
-            :class="{ 'is-active' : track.id === selectedTrack}"
-            class="column is-one-quarter"
-            @select="setSelectedTrack"/>
-        </div>
-      </div>
-    </section>
-
+      <RouterView />
     <!-- Layout Footer -->
     <PmFooter/>
   </div>
 </template>
 
 <script>
-
-import trackService from './services/track'
-
 import PmHeader from './component/layout/Header.vue'
 import PmFooter from './component/layout/Footer.vue'
-
-import PmTrack from './component/Track.vue'
-
-import PmNotification from './component/shared/Notification.vue'
-import PmLoader from './component/shared/Loader.vue'
 
 const tracks = [ ]
 
 export default {
   name: 'app',
-  data () {
-    return {
-     searchQuery: '',
-     tracks: [],
-     isLoading: false,
-     showNotification: false,
-     selectedTrack: ''
-    }
-  },
   components: {
     PmFooter,
     PmHeader,
-    PmTrack,
-    PmLoader,
-    PmNotification
-  },
-  methods: {
-    searchTracks () {
-      this.tracks = tracks
-    },
-
-    cleanTracks () {
-      this.tracks = []
-    },
-
-    search () {
-      if (!this.searchQuery) { return }
-      
-      this.isLoading = true
-
-      trackService.search(this.searchQuery)
-        .then(res => {
-         this.showNotification = res.tracks.total === 0
-         this.tracks = res.tracks.items
-         this.isLoading = false
-        })
-    },
-
-    setSelectedTrack(id) {
-      this.selectedTrack = id
-    }
-  
-  },
-
-  computed: {
-    searchMessage () {
-      return `Encontrados: ${this.tracks.length}` 
-    }
-  },
-
-  watch: {
-    showNotification () {
-      if (this.showNotification){
-        setTimeout(() => {
-          this.showNotification = false
-        }, 2000 )
-      } 
-    }
   }
-
 }
 </script>
 

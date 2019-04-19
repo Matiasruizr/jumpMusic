@@ -1,6 +1,6 @@
 <template>
-  <div class="content">
-    <p><img :src="track.album.images[0].url" alt=""></p>
+  <div class="content" v-if="track && track.album">
+    <p><img  :src="track.album.images[0].url" alt=""></p>
     <p>
       <strong>{{ track.name }}</strong>
       <small>{{ track.artists[0].name }}</small>

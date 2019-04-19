@@ -3,13 +3,18 @@
       <div class="hero-head">
         <header class="nav">
           <div class="container">
-            <div class="nav-left nav-item">
+            <div class="nav-left">
               <strong>
                📻 Jump Music
               </strong>
             </div>
             <div class="nav-right nav-menu">
-
+              <RouterLink class="nav-item" :to="{ name: 'search' }">
+                Buscar
+              </RouterLink>
+              <RouterLink class="nav-item" to="about">
+                Nosotros
+              </RouterLink>
             </div>
           </div>
         </header>
