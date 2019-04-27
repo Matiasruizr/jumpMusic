@@ -1,10 +1,12 @@
 <template>
   <main>
-    <PmNotification v-show="showNotification">
-      <p slot="body">
-        No se encontraron resultados
-      </p>
-    </PmNotification>
+    <transition name="move">
+      <PmNotification v-show="showNotification">
+        <p slot="body">
+          No se encontraron resultados
+        </p>
+      </PmNotification>
+    </transition>
     <section class="section">
       <nav class="nav has-shadow">
         <div class="container">
@@ -29,6 +31,7 @@
           <PmTrack v-show="!isLoading" 
             v-for="(track, index) in tracks" 
             :key="index" :track="track" 
+            v-blur="track.preview_url"
             :class="{ 'is-active' : track.id === selectedTrack}"
             class="column is-one-quarter"
             @select="setSelectedTrack"/>

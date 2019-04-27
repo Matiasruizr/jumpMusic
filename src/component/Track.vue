@@ -20,7 +20,7 @@
       </div>
 
       <div class="content">
-        <small>{{ track.duration_ms }}</small>
+        <small>{{ track.duration_ms | ms-to-mm }}</small>
         <nav class="level">
           <div class="level-left">
             <a class="level-item">
@@ -46,8 +46,7 @@ export default {
   methods: {
     selectTrack () {
       this.$emit('select', this.track.id)
-
-      this.$bus.$emit('set-track', this.track)
+      this.$store.commit('setTrack', this.track)
     },
 
     goToTrack (id) {

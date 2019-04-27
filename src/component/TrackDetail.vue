@@ -1,28 +1,35 @@
 <template>
-  <PmTrack :track="track" class="container"/>
+  <div>
+    <h1>{{ trackTitle }}</h1>
+    <PmTrack :track="track" class="container" />
+  </div> 
 </template>
 
 <script>
-import trackService from '../services/track'
 import PmTrack from './Track.vue'
+import { mapState, mapActions, mapGetters } from 'vuex' 
 
 export default {
   components: { PmTrack },
 
-  data () {
-    return {
-      track: {}
-    }
+  computed: {
+    ...mapState(['track']),
+    ...mapGetters(['trackTitle'])
   },
 
   created () {
     const id = this.$route.params.id
-    const self = this
-    trackService.getById(id)
-      .then(res => {
-        console.log(res)
-        self.track = res
-      })
+
+    if (!this.track || !this.track.id || this.track.id != id ){
+      this.getTrackById({ id })
+        .then(() => {
+          console.log("Track loaded")
+        })
+    }
+  },
+
+  methods: {
+    ...mapActions(['getTrackById'])
   }
 }
 </script>
